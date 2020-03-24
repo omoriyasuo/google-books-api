@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { GlobalStyle } from './utils/GlobalStyle'
 import logo from './logo.svg'
 import { Link } from 'react-router-dom'
 import { Path } from './routes'
@@ -8,8 +7,6 @@ import { Path } from './routes'
 const App: React.FC = () => {
   return (
     <>
-      <GlobalStyle />
-
       <Wrapper>
         <Header>
           <Logo src={logo} className='App-logo' alt='logo' />
