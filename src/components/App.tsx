@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import logo from './logo.svg'
+import logo from '../logo.svg'
 import { Link } from 'react-router-dom'
-import { Path } from './routes'
+import { Path } from '../routes'
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
     <>
       <Wrapper>
@@ -13,10 +13,15 @@ const App: React.FC = () => {
           <Text>
             Edit <CodeText>src/App.tsx</CodeText> and save to reload.
           </Text>
-          <OfficialLink className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
+          <OfficialLink
+            className='App-link'
+            href='https://reactjs.org'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
             Learn React
           </OfficialLink>
-          <SearchBooks to={Path.searchBooks}>本を検索するページへ移動する</SearchBooks>
+          <SearchBooks to={Path.googleBooks}>本を検索するページへ移動する</SearchBooks>
         </Header>
       </Wrapper>
     </>
@@ -54,5 +59,3 @@ const SearchBooks = styled(Link)`
   color: #fff;
   margin-top: 30px;
 `
-
-export default App
