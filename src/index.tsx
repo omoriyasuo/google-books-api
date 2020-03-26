@@ -1,14 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createBrowserHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+
+import { configureStore, history } from './configureStore'
+
 import routes from './routes'
 
-const history = createBrowserHistory()
+const store = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>{routes}</Router>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>{routes}</ConnectedRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 )
