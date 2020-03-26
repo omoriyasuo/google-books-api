@@ -9,7 +9,7 @@ export const Layout: React.FC = ({ children }) => {
       <GlobalStyle />
 
       <Wrapper>
-        <Header>React Tutorial</Header>
+        <Header>Google Search Books</Header>
         <Body>{children}</Body>
       </Wrapper>
     </>
