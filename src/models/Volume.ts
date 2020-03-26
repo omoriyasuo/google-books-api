@@ -3,22 +3,20 @@ import dayjs, { Dayjs } from 'dayjs'
 
 import { JSObject } from '../types/Common'
 
-interface ImageLinksRecord {
+export class ImageLinks extends Record<{
   smallThumbnail: string
   thumbnail: string
-}
-
-export class ImageLinks extends Record<ImageLinksRecord>({
+}>({
   smallThumbnail: '',
   thumbnail: '',
 }) {
-  constructor(data: JSObject = {}) {
-    const params = { ...data }
-    super(params)
+  static fromResponse(response: JSObject) {
+    const params = { ...response }
+    return new ImageLinks(params)
   }
 }
 
-interface VolumeInfoRecord {
+export class VolumeInfo extends Record<{
   title: string
   subtitle: string
   authors: List<string>
@@ -29,9 +27,7 @@ interface VolumeInfoRecord {
   previewLink: string
   infoLink: string
   canonicalVolumeLink: string
-}
-
-export class VolumeInfo extends Record<VolumeInfoRecord>({
+}>({
   title: '',
   subtitle: '',
   authors: List(),
@@ -43,47 +39,49 @@ export class VolumeInfo extends Record<VolumeInfoRecord>({
   infoLink: '',
   canonicalVolumeLink: '',
 }) {
-  constructor(data: JSObject = {}) {
-    const params = { ...data }
+  static fromResponse(response: JSObject) {
+    const params = { ...response }
     params.authors = List(params.authors)
     params.publishedDate = dayjs(params.publishedDate)
-    params.imageLinks = new ImageLinks(params.imageLinks)
-    super(params)
+    params.imageLinks = ImageLinks.fromResponse(params.imageLinks)
+    return new VolumeInfo(params)
+  }
+  get descriptionWithNewLine() {
+    return this.description.replace('。 ', '\n')
+  }
+  get publishedDateString() {
+    return this.publishedDate.format('YYYY/MM/DD')
   }
 }
 
-interface VolumeRecord {
+export class Volume extends Record<{
   id: number
   selfLink: string
-  volumeInfo: VolumeInfoRecord
-}
-
-export class Volume extends Record<VolumeRecord>({
+  volumeInfo: VolumeInfo
+}>({
   id: 0,
   selfLink: '',
   volumeInfo: new VolumeInfo(),
 }) {
-  constructor(data: JSObject) {
-    const params = { ...data }
-    params.volumeInfo = new VolumeInfo(params.volumeInfo)
-    super(params)
+  static fromResponse(response: JSObject) {
+    const params = { ...response }
+    params.volumeInfo = VolumeInfo.fromResponse(params.volumeInfo)
+    return new Volume(params)
   }
 }
 
-interface VolumeListRecord {
+export class VolumeList extends Record<{
   kind: string
   totalItems: number
   items: List<Volume>
-}
-
-export class VolumeList extends Record<VolumeListRecord>({
+}>({
   kind: '',
   totalItems: 0,
   items: List(),
 }) {
-  constructor(data: JSObject) {
-    const params = { ...data }
-    params.items = List(params.items.map((item: JSObject) => new Volume(item)))
-    super(params)
+  static fromResponse(response: JSObject) {
+    const params = { ...response }
+    params.items = List(params.items.map((item: JSObject) => Volume.fromResponse(item)))
+    return new VolumeList(params)
   }
 }
