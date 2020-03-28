@@ -29,6 +29,10 @@ export const GoogleBooks: React.FC = () => {
 
   const dispatch = useDispatch()
 
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    changeSearchString(event.target.value)
+  }
+
   const handleOnSearchButton = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault()
 
@@ -46,11 +50,8 @@ export const GoogleBooks: React.FC = () => {
         <Title>Google Books 検索</Title>
 
         <SearchForm>
-          <Input
-            placeholder='検索ワードを入力してね！'
-            onChange={(event) => changeSearchString(event.target.value)}
-          />
-          <SearchButton onClick={(event) => handleOnSearchButton(event)} disabled={!searchString}>
+          <Input placeholder='検索ワードを入力してね！' onChange={handleChangeInput} />
+          <SearchButton onClick={handleOnSearchButton} disabled={!searchString}>
             検索
           </SearchButton>
         </SearchForm>
